@@ -1,9 +1,9 @@
 {
   "manifest_version": "0.2",
-  "name": "ninjaone-rmm",
-  "display_name": "NinjaONE RMM Server",
+  "name": "NinjaOneMCP_RO",
+  "display_name": "NinjaONE MCP (Read-Only)",
   "version": "1.2.14",
-  "description": "Professional MCP server for NinjaONE RMM platform with comprehensive device management, monitoring, patch management, and automation capabilities",
+  "description": "Read-only MCP server for NinjaONE RMM platform. Provides monitoring, querying, and reporting capabilities without any write or control operations.",
   "author": {
     "name": "Lungshot",
     "email": "support@ninjaone-mcp.dev",
