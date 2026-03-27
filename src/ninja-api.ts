@@ -89,7 +89,7 @@ export class NinjaOneAPI {
       grant_type: 'client_credentials',
       client_id: this.clientId,
       client_secret: this.clientSecret,
-      scope: 'monitoring management'
+      scope: 'monitoring'
     });
 
     const response = await fetch(tokenUrl, {
