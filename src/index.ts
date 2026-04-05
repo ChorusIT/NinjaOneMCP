@@ -462,7 +462,8 @@ const TOOLS = [
       properties: {
         df: { type: 'string', description: 'Device filter' },
         cursor: { type: 'string', description: 'Pagination cursor' },
-        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' }
+        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' },
+        fields: { type: 'string', description: 'Comma-separated list of custom field names to return' }
       }
     }
   },
@@ -474,7 +475,8 @@ const TOOLS = [
       properties: {
         df: { type: 'string', description: 'Device filter' },
         cursor: { type: 'string', description: 'Pagination cursor' },
-        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' }
+        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' },
+        fields: { type: 'string', description: 'Comma-separated list of custom field names to return' }
       }
     }
   },
@@ -486,7 +488,8 @@ const TOOLS = [
       properties: {
         df: { type: 'string', description: 'Device filter' },
         cursor: { type: 'string', description: 'Pagination cursor' },
-        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' }
+        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' },
+        fields: { type: 'string', description: 'Comma-separated list of custom field names to return' }
       }
     }
   },
@@ -498,8 +501,67 @@ const TOOLS = [
       properties: {
         df: { type: 'string', description: 'Device filter' },
         cursor: { type: 'string', description: 'Pagination cursor' },
-        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' }
+        pageSize: { type: 'number', description: 'Number of results per page (default: 50)' },
+        fields: { type: 'string', description: 'Comma-separated list of custom field names to return' }
       }
+    }
+  },
+  {
+    name: 'get_device_custom_fields',
+    description: 'Get all custom field values for a specific device',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'number', description: 'Device identifier' },
+        withInheritance: { type: 'boolean', description: 'Retrieve values using definition scope hierarchy' }
+      },
+      required: ['id']
+    }
+  },
+  {
+    name: 'get_organization_custom_fields',
+    description: 'Get all custom field values for a specific organization',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'number', description: 'Organization identifier' }
+      },
+      required: ['id']
+    }
+  },
+  {
+    name: 'get_location_custom_fields',
+    description: 'Get all custom field values for a specific location within an organization',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'number', description: 'Organization identifier' },
+        locationId: { type: 'number', description: 'Location identifier' },
+        withInheritance: { type: 'boolean', description: 'Retrieve values using definition scope hierarchy' }
+      },
+      required: ['id', 'locationId']
+    }
+  },
+  {
+    name: 'get_custom_field_definitions',
+    description: 'Get custom field definitions (schema/configuration), paginated up to 500 per page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        cursorName: { type: 'string', description: 'Pagination cursor from previous query' },
+        pageSize: { type: 'number', description: 'Number of results per page (default: 50, max: 500)' }
+      }
+    }
+  },
+  {
+    name: 'get_custom_field_definition_by_name',
+    description: 'Get a single custom field definition by its unique field name',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        fieldName: { type: 'string', description: 'The unique field name of the custom field' }
+      },
+      required: ['fieldName']
     }
   },
   {
@@ -706,15 +768,25 @@ class NinjaOneMCPServer {
 
       // Custom Fields and Policies
       case 'query_custom_fields':
-        return this.api.queryCustomFields(args.df, args.cursor, args.pageSize || 50);
+        return this.api.queryCustomFields(args.df, args.cursor, args.pageSize || 50, args.fields);
       case 'query_custom_fields_detailed':
-        return this.api.queryCustomFieldsDetailed(args.df, args.cursor, args.pageSize || 50);
+        return this.api.queryCustomFieldsDetailed(args.df, args.cursor, args.pageSize || 50, args.fields);
       case 'query_scoped_custom_fields':
-        return this.api.queryScopedCustomFields(args.df, args.cursor, args.pageSize || 50);
+        return this.api.queryScopedCustomFields(args.df, args.cursor, args.pageSize || 50, args.fields);
       case 'query_scoped_custom_fields_detailed':
-        return this.api.queryScopedCustomFieldsDetailed(args.df, args.cursor, args.pageSize || 50);
+        return this.api.queryScopedCustomFieldsDetailed(args.df, args.cursor, args.pageSize || 50, args.fields);
       case 'query_policy_overrides':
         return this.api.queryPolicyOverrides(args.df, args.cursor, args.pageSize || 50);
+      case 'get_device_custom_fields':
+        return this.api.getDeviceCustomFields(args.id, args.withInheritance);
+      case 'get_organization_custom_fields':
+        return this.api.getOrganizationCustomFields(args.id);
+      case 'get_location_custom_fields':
+        return this.api.getLocationCustomFields(args.id, args.locationId, args.withInheritance);
+      case 'get_custom_field_definitions':
+        return this.api.getCustomFieldDefinitions(args.cursorName, args.pageSize);
+      case 'get_custom_field_definition_by_name':
+        return this.api.getCustomFieldDefinitionByName(args.fieldName);
 
       // Backup
       case 'query_backup_usage':

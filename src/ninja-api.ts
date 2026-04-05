@@ -346,20 +346,44 @@ export class NinjaOneAPI {
 
   // Queries - Custom Fields and Policies
 
-  async queryCustomFields(df?: string, cursor?: string, pageSize?: number): Promise<any> {
-    return this.makeRequest(`/v2/queries/custom-fields${this.buildQuery({ df, cursor, pageSize })}`);
+  async queryCustomFields(df?: string, cursor?: string, pageSize?: number, fields?: string): Promise<any> {
+    return this.makeRequest(`/v2/queries/custom-fields${this.buildQuery({ df, cursor, pageSize, fields })}`);
   }
 
-  async queryCustomFieldsDetailed(df?: string, cursor?: string, pageSize?: number): Promise<any> {
-    return this.makeRequest(`/v2/queries/custom-fields-detailed${this.buildQuery({ df, cursor, pageSize })}`);
+  async queryCustomFieldsDetailed(df?: string, cursor?: string, pageSize?: number, fields?: string): Promise<any> {
+    return this.makeRequest(`/v2/queries/custom-fields-detailed${this.buildQuery({ df, cursor, pageSize, fields })}`);
   }
 
-  async queryScopedCustomFields(df?: string, cursor?: string, pageSize?: number): Promise<any> {
-    return this.makeRequest(`/v2/queries/scoped-custom-fields${this.buildQuery({ df, cursor, pageSize })}`);
+  async queryScopedCustomFields(df?: string, cursor?: string, pageSize?: number, fields?: string): Promise<any> {
+    return this.makeRequest(`/v2/queries/scoped-custom-fields${this.buildQuery({ df, cursor, pageSize, fields })}`);
   }
 
-  async queryScopedCustomFieldsDetailed(df?: string, cursor?: string, pageSize?: number): Promise<any> {
-    return this.makeRequest(`/v2/queries/scoped-custom-fields-detailed${this.buildQuery({ df, cursor, pageSize })}`);
+  async queryScopedCustomFieldsDetailed(df?: string, cursor?: string, pageSize?: number, fields?: string): Promise<any> {
+    return this.makeRequest(`/v2/queries/scoped-custom-fields-detailed${this.buildQuery({ df, cursor, pageSize, fields })}`);
+  }
+
+  // Device / Org / Location custom field values
+
+  async getDeviceCustomFields(id: number, withInheritance?: boolean): Promise<any> {
+    return this.makeRequest(`/v2/device/${id}/custom-fields${this.buildQuery({ withInheritance })}`);
+  }
+
+  async getOrganizationCustomFields(id: number): Promise<any> {
+    return this.makeRequest(`/v2/organization/${id}/custom-fields`);
+  }
+
+  async getLocationCustomFields(id: number, locationId: number, withInheritance?: boolean): Promise<any> {
+    return this.makeRequest(`/v2/organization/${id}/location/${locationId}/custom-fields${this.buildQuery({ withInheritance })}`);
+  }
+
+  // Custom field definitions
+
+  async getCustomFieldDefinitions(cursorName?: string, pageSize?: number): Promise<any> {
+    return this.makeRequest(`/v2/custom-fields${this.buildQuery({ cursorName, pageSize })}`);
+  }
+
+  async getCustomFieldDefinitionByName(fieldName: string): Promise<any> {
+    return this.makeRequest(`/v2/custom-fields/field-name/${encodeURIComponent(fieldName)}`);
   }
 
   async queryPolicyOverrides(df?: string, cursor?: string, pageSize?: number): Promise<any> {
