@@ -188,8 +188,9 @@ export class NinjaOneAPI {
     return this.makeRequest(`/v2/devices${this.buildQuery({ df, pageSize, after })}`);
   }
 
-  async getDevice(id: number): Promise<any> {
-    return this.makeRequest(`/v2/device/${id}`);
+  async getDevice(id: number, expandWarranty?: boolean): Promise<any> {
+    const query = expandWarranty ? '?expand=warranty' : '';
+    return this.makeRequest(`/v2/device/${id}${query}`);
   }
 
   async getDeviceDashboardUrl(id: number): Promise<any> {

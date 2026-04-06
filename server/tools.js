@@ -92,13 +92,17 @@ export const toolDefinitions = {
 
   get_device: {
     name: "get_device",
-    description: "Get detailed information about a specific device",
+    description: "Get detailed information about a specific device. Set expandWarranty to true to include built-in warranty start/end dates (warranty.startDate, warranty.endDate).",
     inputSchema: {
       type: "object",
       properties: {
         id: {
           type: "number",
           description: "Device ID"
+        },
+        expandWarranty: {
+          type: "boolean",
+          description: "Include warranty dates (startDate/endDate) in the response"
         }
       },
       required: ["id"],
@@ -106,8 +110,8 @@ export const toolDefinitions = {
     },
     handler: async (api, args) => {
       try {
-        const { id } = args;
-        const result = await api.getDevice(id);
+        const { id, expandWarranty } = args;
+        const result = await api.getDevice(id, expandWarranty);
         return formatResponse(result, 'get_device');
       } catch (error) {
         return handleApiError(error, 'get_device');

@@ -241,8 +241,9 @@ export class NinjaOneAPI {
     return await this.apiCall('/v2/devices', {}, params);
   }
 
-  async getDevice(id) {
-    return await this.apiCall(`/v2/device/${id}`);
+  async getDevice(id, expandWarranty = false) {
+    const query = expandWarranty ? '?expand=warranty' : '';
+    return await this.apiCall(`/v2/device/${id}${query}`);
   }
 
   async rebootDevice(id, mode = 'NORMAL') {

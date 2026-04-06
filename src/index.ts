@@ -28,11 +28,12 @@ const TOOLS = [
   },
   {
     name: 'get_device',
-    description: 'Get detailed information about a specific device',
+    description: 'Get detailed information about a specific device. Set expandWarranty to true to include built-in warranty start/end dates (warranty.startDate, warranty.endDate).',
     inputSchema: {
       type: 'object',
       properties: {
-        id: { type: 'number', description: 'Device ID' }
+        id: { type: 'number', description: 'Device ID' },
+        expandWarranty: { type: 'boolean', description: 'Include warranty dates (startDate/endDate) in the response' }
       },
       required: ['id']
     }
@@ -663,7 +664,7 @@ class NinjaOneMCPServer {
       case 'get_devices':
         return this.api.getDevices(args.df, args.pageSize || 50, args.after);
       case 'get_device':
-        return this.api.getDevice(args.id);
+        return this.api.getDevice(args.id, args.expandWarranty);
       case 'get_device_dashboard_url':
         return this.api.getDeviceDashboardUrl(args.id);
       case 'get_device_activities':
