@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(python3 -c \"import zipfile; zf = zipfile.ZipFile\\('ninjaone-rmm.mcpb'\\); [print\\(i.filename, i.file_size\\) for i in zf.infolist\\(\\)]\")",
+      "Bash(python -c \"import zipfile; zf = zipfile.ZipFile\\('ninjaone-rmm.mcpb'\\); [print\\(i.filename, i.file_size\\) for i in zf.infolist\\(\\)]\")",
+      "Bash(mv ninjaone-rmm.mcpb ninjaone-rmm.mcpb.bak)",
+      "Bash(mv ninjaone-rmm-new.mcpb ninjaone-rmm.mcpb)"
     ]
   }
 }

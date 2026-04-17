@@ -18,7 +18,8 @@
         "HTTP_PORT": "3000",
         "SSE_PORT": "3001",
         "CORS_ORIGIN": "*",
-        "LOG_LEVEL": "info"
+        "LOG_LEVEL": "info",
+        "NODE_EXTRA_CA_CERTS": "C:\\PATH\\TO\\ca-bundle.crt"
       }
     }
   }

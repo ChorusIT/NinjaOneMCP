@@ -28,7 +28,8 @@
         "NINJA_CLIENT_ID": "${user_config.client_id}",
         "NINJA_CLIENT_SECRET": "${user_config.client_secret}",
         "LOG_LEVEL": "${user_config.log_level}",
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "NODE_EXTRA_CA_CERTS": "${user_config.node_extra_ca_certs}"
       }
     }
   },
@@ -55,6 +56,12 @@
       "title": "Log Level",
       "description": "Logging level for debugging and monitoring",
       "default": "info"
+    },
+    "node_extra_ca_certs": {
+      "type": "string",
+      "title": "Extra CA Certificates",
+      "description": "Path to a CA certificate bundle file for corporate SSL inspection proxies (e.g., C:\\certs\\ca-bundle.crt)",
+      "required": false
     }
   },
   "compatibility": {
